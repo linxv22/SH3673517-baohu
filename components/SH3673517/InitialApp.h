@@ -5,7 +5,7 @@
 
 #define SOFT_SERVION		0x0012			// 软件版本号 V1.2
 
-#define CELLNUM 0x10        //15串
+#define CELLNUM 0x10        //16串
 #define TSNUM   2          //2路
 
 extern void UserInitial(void);

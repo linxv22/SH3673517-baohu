@@ -403,27 +403,9 @@ void InitVar(void)
 *************************************************************************************************/
 void InitSysPara(void)
 {
-	// PARAMETER *pE2DataBak1 = (PARAMETER *)FLASH_PARAA_ADDR;
-	// PARAMETER *pE2DataBak2 = (PARAMETER *)FLASH_PARAB_ADDR;
-	// if(pE2DataBak1->E2usCheckFlag == 0x5AA5)
-	// {
-	// 	memcpy((U8 *)&parameter, (U8 *)pE2DataBak1, DATAFLASH_BLOCK_SIZE);
-	// 	if(pE2DataBak2->E2usCheckFlag != 0x5AA5)
-	// 	{
-	// 		FlashProcess(FLASH_PARAB_ADDR, (U8 *)&parameter, DATAFLASH_BLOCK_SIZE);		// 更新备份区2
-	// 	}
-	// }
-	// else if(pE2DataBak2->E2usCheckFlag == 0x5AA5)
-	// {
-	// 	memcpy((U8 *)&parameter, (U8 *)pE2DataBak2, DATAFLASH_BLOCK_SIZE);
 
-	// 	FlashProcess(FLASH_PARAA_ADDR, (U8 *)&parameter, DATAFLASH_BLOCK_SIZE);			// 更新备份区1
-	// }
-	// else
-	// {
-	// 	bMcuFlashErr = 1;
-	// 	return;
-	// }
+	parameter = constParams;
+
 }
 
 /*************************************************************************************************
