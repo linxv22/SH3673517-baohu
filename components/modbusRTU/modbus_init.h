@@ -5,5 +5,6 @@
 
 
 bool modbus_init(void);
+void up_batinf(const SYSINFOR  *temp);
 
 #endif
