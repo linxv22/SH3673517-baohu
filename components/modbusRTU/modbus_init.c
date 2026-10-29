@@ -2,6 +2,7 @@
 #include "sdkconfig.h"
 #include "mbcontroller.h"       // for mbcontroller defines and api
 #include "common.h"
+#include "soc/uart_reg.h"
 
 static const char *TAG = "MODBUS_RTU";
 
@@ -50,7 +51,7 @@ static void *mbc_slave_handle = NULL;
 bool modbus_init(void)
 {
     mb_communication_info_t comm_config = {
-        .ser_opts.port = UART_NUM_2,
+        .ser_opts.port = MB_PORT_NUM,
         .ser_opts.mode = MB_RTU,                // RTU communication mode
         .ser_opts.baudrate = 115200,
         .ser_opts.parity = MB_PARITY_NONE,
@@ -82,6 +83,14 @@ bool modbus_init(void)
 
     // Set UART driver mode to UART_MODE_UART
     ESP_ERROR_CHECK(uart_set_mode(MB_PORT_NUM, UART_MODE_UART));
+
+    // 自动收发方向的 485 收发器：方向由外部电路控制，无需 RTS 管脚。
+    // 传输过程中置 RXBY_TX_EN=1、TX_RX_EN=0 以抑制回波(空字节)，任意 RS485 UART 模式下均有效。
+    REG_SET_BIT(UART_RS485_CONF_REG(MB_PORT_NUM),
+                UART_RS485RXBY_TX_EN);  // 置 1
+    REG_CLR_BIT(UART_RS485_CONF_REG(MB_PORT_NUM),
+                UART_RS485TX_RX_EN);    // 清 0
+
 
     // Starts of modbus controller and stack
     err = mbc_slave_start(mbc_slave_handle);
